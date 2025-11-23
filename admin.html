@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Panel</title>
+</head>
+<body>
+
+<h1>Welcome Admin!</h1>
+<p>You have full access.</p>
+
+<button onclick="logout()">Logout</button>
+
+<script>
+    if (!localStorage.getItem("token")) {
+        window.location.href = "signin.html";
+    }
+
+    function logout() {
+        localStorage.removeItem("token");
+        window.location.href = "signin.html";
+    }
+</script>
+
+</body>
+</html>

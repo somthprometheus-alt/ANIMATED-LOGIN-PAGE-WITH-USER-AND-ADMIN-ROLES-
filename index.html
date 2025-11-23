@@ -566,7 +566,73 @@ function togglePassword(inputId, toggleId) {
 
 togglePassword("signup-pass", "toggleSignup");
 togglePassword("signin-pass", "toggleSignin");
+// ====================== SIGNUP ===========================
+const signupForm = document.querySelector(".sign-up-container form");
+signupForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
+    const name = signupForm.querySelector('input[placeholder="Name"]').value;
+    const email = signupForm.querySelector('input[placeholder="Email"]').value;
+    const password = signupForm.querySelector('#signup-pass').value;
+
+    const response = await fetch("http://localhost:5000/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, password })
+    });
+
+    const data = await response.json();
+    alert(data.message);
+});
+
+
+// ====================== SIGNIN ===========================
+// ====================== SIGNIN ===========================
+const signinForm = document.querySelector(".sign-in-container form");
+signinForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const email = signinForm.querySelector('input[placeholder="Email"]').value;
+    const password = signinForm.querySelector('#signin-pass').value;
+
+    const response = await fetch("http://localhost:5000/signin", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, password })
+});
+
+const data = await response.json();
+
+if (data.status === "success") {
+    localStorage.setItem("token", data.token);
+
+    // ⭐ ROLE BASED REDIRECT
+    if (data.role === "admin") {
+        window.location.href = "admin.html";
+    } else {
+        window.location.href = "dashboard.html";
+    }
+} else {
+    alert(data.message);
+}
+
+});
+
+
+document.querySelector("#signupBtn").addEventListener("click", async () => {
+  const name = document.querySelector("#name").value;
+  const email = document.querySelector("#email").value;
+  const password = document.querySelector("#password").value;
+
+  const response = await fetch("http://localhost:5000/signup", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ name, email, password })
+  });
+
+  const data = await response.json();
+  console.log(data);
+});
 </script>
 <div class="cursor-ripple" id="cursor"></div>
 
